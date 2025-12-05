@@ -775,7 +775,7 @@
         </div>
         <div>
          <div class="dashboard-card-title">
-          المخزون الرئي��ي
+          المخزون الرئيسي
          </div>
         </div>
        </div>
@@ -864,7 +864,7 @@
             const brandUpper = brand.toUpperCase();
             
             if (brandUpper.includes('VARTA')) {
-                return 'مور�� فارتا';
+                return 'مورد فارتا';
             } else if (brandUpper.includes('EMTRAC')) {
                 return 'مورد البابطين';
             } else {
@@ -882,13 +882,13 @@
                     return `متوفرة بطارية موتر كرافت امريكيه 🇺🇸 كفالتها 3 سنوات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
                 }
             } else if (brandUpper.includes('VARTA')) {
-                return `متوفرة بطارية ��ارتا المانيه 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشلن السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية فارتا المانيه 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشلن السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('ABM')) {
                 return `متوفرة بطارية ايه بي ام ماليزية 🇲🇾 كفالتها سنة واحدة على الوكيل اف كي السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('MOTO RAFT')) {
                 return `متوفرة بطارية موتر رفت هنديه 🇮🇳 كفالتها سنه واحده على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('BOSSTER') || brandUpper.includes('BOOSTER')) {
-                return `متوفرة بطارية بوستر او اوكلي صينيه 🇨🇳 كفالتها سنه واحده على الوكيل المشعل السعر مع رسوم ال��ركيب ${salePrice} دك`;
+                return `متوفرة بطارية بوستر او اوكلي صينيه 🇨🇳 كفالتها سنه واحده على الوكيل المشعل السعر مع رسوم التركيب ${salePrice} دك`;
             } else {
                 return `متوفرة بطارية ${brand} السعر ${salePrice} دك`;
             }
@@ -932,7 +932,7 @@
 
                 loadData();
             } else {
-                errorMsg.textContent = 'اسم المستخدم او كلمة المرور غير صحي����ة';
+                errorMsg.textContent = 'اسم المستخدم او كلمة المرور غير صحية';
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
@@ -1180,11 +1180,11 @@
                     <div class="no-results">
                         <div class="no-results-icon">🔋</div>
                         <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">لا توجد نتائج</div>
-                        <div>لم يتم العثور ��لى بطاريات متوفرة بمقاس ${size}</div>
+                        <div>لم يتم العثور على بطاريات متوفرة بمقاس ${size}</div>
                     </div>
                 `;
             } else {
-                resultsTitle.textContent = `نتائج البحث ��ن مقاس: ${size}`;
+                resultsTitle.textContent = `نتائج البحث عن مقاس: ${size}`;
                 resultsContent.innerHTML = '<div class="results-grid">' + results.map(battery => {
                     const brandMessage = getBrandMessage(battery.brand, battery.salePrice, battery.size);
                     const onlyInWarehouse = battery.drivers.length === 0;
@@ -1217,7 +1217,7 @@
 
                         ${onlyInWarehouse ? `
                             <div class="warehouse-only-notice">
-                                البطارية م��وفرة في المورد فقط ❗
+                                البطارية متوفرة في المورد فقط ❗
                             </div>
                         ` : `
                             <div class="stock-section">
@@ -1247,7 +1247,7 @@
                         ${currentUser && !currentUser.canExport ? `
                             <div class="copy-message">${brandMessage}</div>
                             <button class="btn-copy" onclick='copyMessage(\`${brandMessage}\`)'>
-                                نسخ الرس��لة للعميل 📋
+                                نسخ الرسالة للعميل 📋
                             </button>
                         ` : ''}
                     </div>
