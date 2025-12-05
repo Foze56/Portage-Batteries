@@ -425,48 +425,6 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .btn-copy {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            border: none;
-            padding: 0.875rem 1.5rem;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
-            width: 100%;
-            font-size: 1.05rem;
-        }
-
-        .btn-copy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        .warehouse-only-notice {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            border: 2px solid #ffc107;
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-top: 1rem;
-            text-align: center;
-            font-weight: bold;
-            color: #856404;
-            font-size: 1.05rem;
-        }
-
-        .copy-message {
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-top: 1rem;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #333;
-        }
-
         .copy-success {
             position: fixed;
             top: 50%;
@@ -534,132 +492,163 @@
         }
 
         .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
+            width: 100%;
+            overflow-x: auto;
         }
 
-        .battery-card {
-            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-            border: 2px solid #e0e0e0;
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
             border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s;
-            height: 100%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .battery-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border-color: #FFC107;
+        .results-table thead {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
         }
 
-        .battery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .battery-name {
-            font-size: 1.3rem;
+        .results-table th {
+            padding: 1rem 0.75rem;
+            text-align: center;
             font-weight: bold;
-            color: #1a1a1a;
+            font-size: 0.95rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .battery-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
+        .results-table th:last-child {
+            border-left: none;
         }
 
-        .info-item {
-            background: white;
-            padding: 0.875rem;
-            border-radius: 8px;
-            border-right: 4px solid #FFC107;
+        .results-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
         }
 
-        .info-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.25rem;
+        .results-table tbody tr:hover {
+            background: #fffbf0;
         }
 
-        .info-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .stock-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 2px solid #e0e0e0;
-        }
-
-        .stock-title {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #1a1a1a;
-            margin-bottom: 0.75rem;
-        }
-
-        .stock-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 0.6rem;
-        }
-
-        .driver-stock {
-            background: white;
-            padding: 0.6rem;
-            border-radius: 8px;
-            border: 1.5px solid #e0e0e0;
-            transition: all 0.3s;
-        }
-
-        .driver-stock:hover {
-            border-color: #FFC107;
-            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
-        }
-
-        .driver-name {
-            font-weight: bold;
-            color: #1a1a1a;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            padding-bottom: 0.4rem;
-            border-bottom: 1.5px solid #FFC107;
-        }
-
-        .warehouse-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.35rem 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .warehouse-item:last-child {
+        .results-table tbody tr:last-child {
             border-bottom: none;
         }
 
-        .warehouse-name {
-            color: #666;
-            font-size: 0.75rem;
+        .results-table td {
+            padding: 1rem 0.75rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-left: 1px solid #f0f0f0;
+            vertical-align: middle;
         }
 
-        .warehouse-stock {
+        .results-table td:last-child {
+            border-left: none;
+        }
+
+        .brand-cell {
+            font-weight: bold;
+            color: #1a1a1a;
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        .size-cell {
+            font-weight: 600;
+            color: #FFC107;
+            font-size: 0.95rem;
+        }
+
+        .price-cell {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 0.95rem;
+        }
+
+        .warehouse-cell {
+            font-size: 0.85rem;
+        }
+
+        .warehouse-stock-badge {
             background: #1a1a1a;
             color: #FFC107;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0.2rem;
+            font-size: 0.8rem;
+        }
+
+        .drivers-cell {
+            text-align: right;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .driver-item {
+            display: inline-block;
+            background: #f5f5f5;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+            margin: 0.2rem;
+            transition: all 0.2s;
+        }
+
+        .driver-item:hover {
+            border-color: #FFC107;
+            background: #fff9e6;
+        }
+
+        .driver-item-name {
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-left: 0.4rem;
+        }
+
+        .driver-item-stock {
+            background: #1a1a1a;
+            color: #FFC107;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
             font-weight: bold;
             font-size: 0.75rem;
+            margin: 0 0.2rem;
+        }
+
+        .warehouse-only-notice {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            text-align: center;
+            font-weight: bold;
+            color: #856404;
+            font-size: 0.85rem;
+        }
+
+        .action-cell {
+            min-width: 120px;
+        }
+
+        .btn-copy-small {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .btn-copy-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
         }
 
         .no-results {
@@ -704,18 +693,6 @@
                 flex-direction: column;
             }
 
-            .battery-info {
-                grid-template-columns: 1fr;
-            }
-
-            .stock-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-
             .auth-card {
                 padding: 2rem 1.5rem;
             }
@@ -735,6 +712,15 @@
             .low-stock-table th,
             .low-stock-table td {
                 padding: 0.5rem 0.3rem;
+            }
+
+            .results-table {
+                font-size: 0.8rem;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 0.75rem 0.5rem;
             }
         }
     </style>
@@ -879,7 +865,7 @@
             Abdullah: { password: 'portarage1', role: 'كول سنتر', canExport: false },
             Suaad: { password: 'portarage2', role: 'كول سنتر', canExport: false },
             Laila: { password: 'portarage3', role: 'كول سنتر', canExport: false },
-            Nasser: { password: 'portarage4', role: 'كول ����نتر', canExport: false },
+            Nasser: { password: 'portarage4', role: 'كول سنتر', canExport: false },
             Khalifa: { password: 'portarage5', role: 'كول سنتر', canExport: false },
             Azam: { password: 'portarage6', role: 'كول سنتر', canExport: false },
             Abdulwahab: { password: 'portarage7', role: 'كول سنتر', canExport: false },
@@ -907,7 +893,7 @@
             } else if (brandUpper.includes('EMTRAC')) {
                 return 'مورد البابطين';
             } else {
-                return type === 'FK' ? 'مورد أف كي' : 'مورد افتخار';
+                return type === 'FK' ? 'مورد اف كي' : 'مورد افتخار';
             }
         }
 
@@ -925,7 +911,7 @@
             } else if (brandUpper.includes('ABM')) {
                 return `متوفرة بطارية أيه بي أم ماليزية 🇲🇾 كفالتها سنة واحدة على الوكيل أف كي السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('MOTO RAFT')) {
-                return `متوفرة بطارية موتر رفت هندي�� 🇮🇳 كفالتها سنة واحدة على الوكيل ��فتخار السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية موتر رفت هندية 🇮🇳 كفالتها سنة واحدة على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('BOSSTER') || brandUpper.includes('BOOSTER')) {
                 return `متوفرة بطارية بوستر أو أو سي صينية 🇨🇳 كفالتها سنة واحدة على الوكيل المشعل السعر مع رسوم التركيب ${salePrice} دك`;
             } else {
@@ -1248,7 +1234,6 @@
                         <thead>
                             <tr>
                                 <th>البطارية والمقاس</th>
-                                <th>السعر 💰</th>
                                 <th>سعر البيع 💵</th>
                                 <th>المخزون 📦</th>
                                 <th>السائقين 🚚</th>
@@ -1259,7 +1244,6 @@
                             ${filteredBatteries.map(battery => `
                                 <tr>
                                     <td class="low-stock-brand-cell">${battery.brand} - ${battery.size}</td>
-                                    <td>${battery.price} دك</td>
                                     <td>${battery.salePrice} دك</td>
                                     <td>${battery.fkStock + battery.mStock}</td>
                                     <td>${battery.drivers.reduce((sum, d) => sum + d.fk + d.m, 0)}</td>
@@ -1324,6 +1308,7 @@
             const resultsDiv = document.getElementById('results');
             const resultsContent = document.getElementById('resultsContent');
             const resultsTitle = document.getElementById('resultsTitle');
+            const isReader = currentUser && !currentUser.canExport;
 
             if (results.length === 0) {
                 resultsContent.innerHTML = `
@@ -1335,81 +1320,75 @@
                 `;
             } else {
                 resultsTitle.textContent = `نتائج البحث عن مقاس: ${size}`;
-                resultsContent.innerHTML = '<div class="results-grid">' + results.map(battery => {
-                    const brandMessage = getBrandMessage(battery.brand, battery.salePrice, battery.size);
-                    const onlyInWarehouse = battery.drivers.length === 0;
-                    
-                    return `
-                    <div class="battery-card">
-                        <div class="battery-header">
-                            <div class="battery-name">${battery.brand}</div>
-                        </div>
-                        
-                        <div class="battery-info">
-                            <div class="info-item">
-                                <div class="info-label">المقاس</div>
-                                <div class="info-value">${battery.size}</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-label">السعر 💰</div>
-                                <div class="info-value">${battery.price} دك</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-label">سعر البيع 💵</div>
-                                <div class="info-value">${battery.salePrice} دك</div>
-                            </div>
-                            ${battery.fkStock > 0 ? `
-                            <div class="info-item">
-                                <div class="info-label">${battery.fkSupplierName}</div>
-                                <div class="info-value">${battery.fkStock} ${battery.fkStock === 1 ? 'بطارية' : 'بطاريات'}</div>
-                            </div>
-                            ` : ''}
-                            ${battery.mStock > 0 ? `
-                            <div class="info-item">
-                                <div class="info-label">${battery.mSupplierName}</div>
-                                <div class="info-value">${battery.mStock} ${battery.mStock === 1 ? 'بطارية' : 'بطاريات'}</div>
-                            </div>
-                            ` : ''}
-                        </div>
-
-                        ${onlyInWarehouse ? `
-                            <div class="warehouse-only-notice">
-                                البطارية متوفرة في المورد فقط ❗
-                            </div>
-                        ` : `
-                            <div class="stock-section">
-                                <div class="stock-title">��خزون السائقين 🚚</div>
-                                <div class="stock-grid">
-                                    ${battery.drivers.map(driver => `
-                                        <div class="driver-stock">
-                                            <div class="driver-name">${driver.name}</div>
-                                            ${driver.fk > 0 ? `
-                                            <div class="warehouse-item">
-                                                <span class="warehouse-name">${driver.fkSupplierName}</span>
-                                                <span class="warehouse-stock">${driver.fk}</span>
-                                            </div>
+                
+                resultsContent.innerHTML = `
+                    <div class="results-grid">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>الماركة</th>
+                                    <th>المقاس</th>
+                                    ${isReader ? '' : '<th>السعر 💰</th>'}
+                                    <th>سعر البيع 💵</th>
+                                    <th>المخزون الرئيسي 📦</th>
+                                    <th>مخزون السائقين 🚚</th>
+                                    ${isReader ? '<th>إجراء</th>' : ''}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${results.map(battery => {
+                                    const brandMessage = getBrandMessage(battery.brand, battery.salePrice, battery.size);
+                                    const onlyInWarehouse = battery.drivers.length === 0;
+                                    
+                                    let warehouseContent = '';
+                                    if (battery.fkStock > 0) {
+                                        warehouseContent += `<span class="warehouse-stock-badge">${battery.fkSupplierName}: ${battery.fkStock}</span>`;
+                                    }
+                                    if (battery.mStock > 0) {
+                                        warehouseContent += `<span class="warehouse-stock-badge">${battery.mSupplierName}: ${battery.mStock}</span>`;
+                                    }
+                                    if (!warehouseContent) {
+                                        warehouseContent = '-';
+                                    }
+                                    
+                                    let driversContent = '';
+                                    if (onlyInWarehouse) {
+                                        driversContent = '<div class="warehouse-only-notice">في المورد فقط ❗</div>';
+                                    } else {
+                                        driversContent = battery.drivers.map(driver => {
+                                            let driverInfo = '';
+                                            if (driver.fk > 0) {
+                                                driverInfo += `<span class="driver-item-stock">${driver.fkSupplierName}: ${driver.fk}</span>`;
+                                            }
+                                            if (driver.m > 0) {
+                                                driverInfo += `<span class="driver-item-stock">${driver.mSupplierName}: ${driver.m}</span>`;
+                                            }
+                                            return `<div class="driver-item"><span class="driver-item-name">${driver.name}</span>${driverInfo}</div>`;
+                                        }).join('');
+                                    }
+                                    
+                                    return `
+                                        <tr>
+                                            <td class="brand-cell">${battery.brand}</td>
+                                            <td class="size-cell">${battery.size}</td>
+                                            ${isReader ? '' : `<td class="price-cell">${battery.price} دك</td>`}
+                                            <td class="price-cell">${battery.salePrice} دك</td>
+                                            <td class="warehouse-cell">${warehouseContent}</td>
+                                            <td class="drivers-cell">${driversContent}</td>
+                                            ${isReader ? `
+                                                <td class="action-cell">
+                                                    <button class="btn-copy-small" onclick='copyMessage(\`${brandMessage}\`)'>
+                                                        📋 نسخ
+                                                    </button>
+                                                </td>
                                             ` : ''}
-                                            ${driver.m > 0 ? `
-                                            <div class="warehouse-item">
-                                                <span class="warehouse-name">${driver.mSupplierName}</span>
-                                                <span class="warehouse-stock">${driver.m}</span>
-                                            </div>
-                                            ` : ''}
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `}
-
-                        ${currentUser && !currentUser.canExport ? `
-                            <div class="copy-message">${brandMessage}</div>
-                            <button class="btn-copy" onclick='copyMessage(\`${brandMessage}\`)'>
-                                نسخ الرسالة للعميل 📋
-                            </button>
-                        ` : ''}
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
                     </div>
                 `;
-                }).join('') + '</div>';
             }
 
             resultsDiv.style.display = 'block';
@@ -1494,5 +1473,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a945853234c7cc9',t:'MTc2NDk0NjExMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a94638875f67cc9',t:'MTc2NDk0NjU3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
