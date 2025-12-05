@@ -746,6 +746,11 @@
     </div>
    </header>
    <main class="content">
+    <div class="search-section">
+     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مقاس البطارية مثال 95 او DA95 او AGM" oninput="handleSearchInput()" onfocus="handleSearchFocus()"> <button id="exportBtn" class="btn-export" onclick="handleExport()"> تصدير Excel 📥 </button>
+     </div>
+     <div id="suggestions" class="suggestions"></div>
+    </div>
     <div id="dashboardSection" class="dashboard-section">
      <div class="dashboard-grid">
       <div class="dashboard-card">
@@ -820,11 +825,6 @@
       <div id="lowStockList" class="low-stock-list"></div>
      </div>
     </div>
-    <div class="search-section">
-     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مقاس البطارية مثال 95 او DA95 او AGM" oninput="handleSearchInput()" onfocus="handleSearchFocus()"> <button id="exportBtn" class="btn-export" onclick="handleExport()"> تصدير Excel 📥 </button>
-     </div>
-     <div id="suggestions" class="suggestions"></div>
-    </div>
     <div id="loading" class="loading">
      <div class="spinner"></div>
      <div>
@@ -864,7 +864,7 @@
             const brandUpper = brand.toUpperCase();
             
             if (brandUpper.includes('VARTA')) {
-                return 'مورد فارتا';
+                return 'مور�� فارتا';
             } else if (brandUpper.includes('EMTRAC')) {
                 return 'مورد البابطين';
             } else {
@@ -1217,7 +1217,7 @@
 
                         ${onlyInWarehouse ? `
                             <div class="warehouse-only-notice">
-                                البطارية متوفرة في المورد فقط ❗
+                                البطارية م��وفرة في المورد فقط ❗
                             </div>
                         ` : `
                             <div class="stock-section">
@@ -1247,7 +1247,7 @@
                         ${currentUser && !currentUser.canExport ? `
                             <div class="copy-message">${brandMessage}</div>
                             <button class="btn-copy" onclick='copyMessage(\`${brandMessage}\`)'>
-                                نسخ الرسالة للعميل 📋
+                                نسخ الرس��لة للعميل 📋
                             </button>
                         ` : ''}
                     </div>
@@ -1263,40 +1263,8 @@
                 return;
             }
 
-            const today = new Date();
-            const dateStr = today.toISOString().split('T')[0];
-            const filename = `batteries_stock_${dateStr}.xlsx`;
-
-            const exportData = batteryData.map(battery => {
-                const row = {
-                    'المقاس': battery.size,
-                    'الاسم التجاري': battery.tradeName,
-                    'الماركة': battery.brand,
-                    'السعر': battery.price,
-                    'سعر البيع': battery.salePrice
-                };
-                
-                row[battery.fkSupplierName] = battery.fkStock;
-                row[battery.mSupplierName] = battery.mStock;
-
-                battery.drivers.forEach(driver => {
-                    row[`${driver.name} - ${driver.fkSupplierName}`] = driver.fk;
-                    row[`${driver.name} - ${driver.mSupplierName}`] = driver.m;
-                });
-
-                return row;
-            });
-
-            const ws = XLSX.utils.json_to_sheet(exportData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'مخزون البطاريات');
-
-            const colWidths = Object.keys(exportData[0] || {}).map(key => ({
-                wch: Math.max(key.length, 15)
-            }));
-            ws['!cols'] = colWidths;
-
-            XLSX.writeFile(wb, filename);
+            const excelUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+            window.open(excelUrl, '_blank', 'noopener,noreferrer');
         }
 
         async function onConfigChange(newConfig) {
@@ -1343,5 +1311,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92e06e959f7cc9',t:'MTc2NDkzMDcxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92f82fb65f7cc9',t:'MTc2NDkzMTY4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
