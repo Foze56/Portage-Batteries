@@ -860,6 +860,7 @@
         let driversArabicNames = {};
         let allLowStockBatteries = [];
         let currentFilter = 'all';
+        let autoRefreshInterval = null;
 
         function getSupplierName(brand, type) {
             const brandUpper = brand.toUpperCase();
@@ -880,7 +881,7 @@
                 if (size === 'DA100' || size === '95AGM') {
                     return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها سنتين على الوكيل فورد الغانم سعرها ${salePrice} دك`;
                 } else {
-                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سنوات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
+                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سن��ات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
                 }
             } else if (brandUpper.includes('VARTA')) {
                 return `متوفرة بطارية فارتا ألمانية 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشنل السعر مع رسوم التركيب ${salePrice} دك`;
@@ -919,6 +920,10 @@
 
             if (USERS[username] && USERS[username].password === password) {
                 currentUser = { username, ...USERS[username] };
+                
+                // حفظ بيانات المستخدم في localStorage
+                localStorage.setItem('batterySystemUser', JSON.stringify(currentUser));
+                
                 document.getElementById('authContainer').style.display = 'none';
                 document.getElementById('mainContainer').style.display = 'block';
                 document.getElementById('userBadge').textContent = `${currentUser.role}: ${username}`;
@@ -932,6 +937,7 @@
                 }
 
                 loadData();
+                startAutoRefresh();
             } else {
                 errorMsg.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
                 errorMsg.style.display = 'block';
@@ -943,6 +949,13 @@
 
         function handleLogout() {
             currentUser = null;
+            
+            // حذف بيانات المستخدم من localStorage
+            localStorage.removeItem('batterySystemUser');
+            
+            // إيقاف التحديث التلقائي
+            stopAutoRefresh();
+            
             document.getElementById('mainContainer').style.display = 'none';
             document.getElementById('authContainer').style.display = 'flex';
             document.getElementById('loginForm').reset();
@@ -970,8 +983,10 @@
             return result;
         }
 
-        async function loadData() {
-            document.getElementById('loading').style.display = 'block';
+        async function loadData(silent = false) {
+            if (!silent) {
+                document.getElementById('loading').style.display = 'block';
+            }
             
             try {
                 await Promise.all([
@@ -981,7 +996,26 @@
             } catch (error) {
                 console.error('خطأ في تحميل البيانات:', error);
             } finally {
-                document.getElementById('loading').style.display = 'none';
+                if (!silent) {
+                    document.getElementById('loading').style.display = 'none';
+                }
+            }
+        }
+
+        function startAutoRefresh() {
+            // إيقاف أي تحديث سابق
+            stopAutoRefresh();
+            
+            // تحديث البيانات كل دقيقة (60000 ميلي ثانية)
+            autoRefreshInterval = setInterval(() => {
+                loadData(true); // التحديث الصامت بدون إظهار شاشة التحميل
+            }, 60000);
+        }
+
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
             }
         }
 
@@ -1241,7 +1275,7 @@
                             ${battery.fkStock > 0 ? `
                             <div class="info-item">
                                 <div class="info-label">${battery.fkSupplierName}</div>
-                                <div class="info-value">${battery.fkStock} ${battery.fkStock === 1 ? 'بطارية' : 'بطاريات'}</div>
+                                <div class="info-value">${battery.fkStock} ${battery.fkStock === 1 ? 'بطارية' : 'ب��اريات'}</div>
                             </div>
                             ` : ''}
                             ${battery.mStock > 0 ? `
@@ -1354,11 +1388,38 @@
             });
         }
 
+        // فحص تسجيل الدخول السابق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('batterySystemUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    document.getElementById('authContainer').style.display = 'none';
+                    document.getElementById('mainContainer').style.display = 'block';
+                    document.getElementById('userBadge').textContent = `${currentUser.role}: ${currentUser.username}`;
+                    
+                    if (currentUser.canExport) {
+                        document.getElementById('dashboardSection').style.display = 'block';
+                        document.getElementById('exportBtn').style.display = 'block';
+                    } else {
+                        document.getElementById('dashboardSection').style.display = 'none';
+                        document.getElementById('exportBtn').style.display = 'none';
+                    }
+                    
+                    loadData();
+                    startAutoRefresh();
+                } catch (error) {
+                    console.error('خطأ في استرجاع بيانات المستخدم:', error);
+                    localStorage.removeItem('batterySystemUser');
+                }
+            }
+        });
+
         document.addEventListener('click', (e) => {
             if (!e.target.closest('#searchInput') && !e.target.closest('#suggestions')) {
                 document.getElementById('suggestions').style.display = 'none';
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a93630601e5c5d0',t:'MTc2NDkzNjA2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a936700e5b5c5d0',t:'MTc2NDkzNjIyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
