@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام ادارة مخزون البطاريات</title>
+  <title>نظام إدارة مخزون البطاريات</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -496,6 +496,7 @@
             padding: 2rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: none;
+            margin-bottom: 2rem;
         }
 
         .results-title {
@@ -725,9 +726,9 @@
     </div>
     <div id="errorMessage" class="error-message"></div>
     <form id="loginForm" onsubmit="handleLogin(event)">
-     <div class="form-group"><label class="form-label">اسم المستخدم</label> <input type="text" id="username" class="form-input" placeholder="ادخل اسم المستخدم" required>
+     <div class="form-group"><label class="form-label">اسم المستخدم</label> <input type="text" id="username" class="form-input" placeholder="أدخل اسم المستخدم" required>
      </div>
-     <div class="form-group"><label class="form-label">كلمة المرور</label> <input type="password" id="password" class="form-input" placeholder="ادخل كلمة المرور" required>
+     <div class="form-group"><label class="form-label">كلمة المرور</label> <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" required>
      </div><button type="submit" class="btn-login">تسجيل الدخول</button>
     </form>
    </div>
@@ -747,9 +748,19 @@
    </header>
    <main class="content">
     <div class="search-section">
-     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مقاس البطارية مثال 95 او DA95 او AGM" oninput="handleSearchInput()" onfocus="handleSearchFocus()"> <button id="exportBtn" class="btn-export" onclick="handleExport()"> تصدير Excel 📥 </button>
+     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مقاس البطارية مثال 95 أو DA95 أو AGM" oninput="handleSearchInput()" onfocus="handleSearchFocus()"> <button id="exportBtn" class="btn-export" onclick="handleExport()"> 📥 تحميل Excel </button>
      </div>
      <div id="suggestions" class="suggestions"></div>
+    </div>
+    <div id="loading" class="loading">
+     <div class="spinner"></div>
+     <div>
+      جاري تحميل البيانات
+     </div>
+    </div>
+    <div id="results" class="results-section">
+     <div class="results-title" id="resultsTitle"></div>
+     <div id="resultsContent"></div>
     </div>
     <div id="dashboardSection" class="dashboard-section">
      <div class="dashboard-grid">
@@ -760,7 +771,7 @@
         </div>
         <div>
          <div class="dashboard-card-title">
-          اجمالي البطاريات
+          إجمالي البطاريات
          </div>
         </div>
        </div>
@@ -805,7 +816,7 @@
         </div>
         <div>
          <div class="dashboard-card-title">
-          بطاريات منخفضة او منتهية
+          بطاريات منخفضة أو منتهية
          </div>
         </div>
        </div>
@@ -817,23 +828,13 @@
      <div class="low-stock-section">
       <div class="low-stock-header">
        <div class="low-stock-title">
-        ⚠️ البطاريات المنخفضة او المنتهية
+        ⚠️ البطاريات المنخفضة أو المنتهية
        </div>
        <div class="filter-buttons"><button class="btn-filter active" onclick="filterLowStock('all')"> الكل </button> <button class="btn-filter" onclick="filterLowStock('out')"> منتهية فقط </button> <button class="btn-filter" onclick="filterLowStock('low')"> منخفضة فقط </button>
        </div>
       </div>
       <div id="lowStockList" class="low-stock-list"></div>
      </div>
-    </div>
-    <div id="loading" class="loading">
-     <div class="spinner"></div>
-     <div>
-      جاري تحميل البيانات
-     </div>
-    </div>
-    <div id="results" class="results-section">
-     <div class="results-title" id="resultsTitle"></div>
-     <div id="resultsContent"></div>
     </div>
    </main>
   </div>
@@ -846,8 +847,8 @@
         let config = { ...defaultConfig };
         
         const SHEET_ID = '1WghSWhC-NJ0h--afoaR0ydzTP8ULw7N3tBDgToXoLVk';
-        const MAIN_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet1`;
-        const DRIVERS_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Sheet3`;
+        const MAIN_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+        const DRIVERS_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1448714097`;
 
         const USERS = {
             reader: { password: 'read123', role: 'قارئ', canExport: false },
@@ -868,7 +869,7 @@
             } else if (brandUpper.includes('EMTRAC')) {
                 return 'مورد البابطين';
             } else {
-                return type === 'FK' ? 'مورد اف كي' : 'مورد افتخار';
+                return type === 'FK' ? 'مورد أف كي' : 'مورد افتخار';
             }
         }
 
@@ -877,18 +878,18 @@
             
             if (brandUpper.includes('MOTER CRAFT') || brandUpper.includes('MOTOR CRAFT')) {
                 if (size === 'DA100' || size === '95AGM') {
-                    return `متوفرة بطارية موتر كرافت امريكيه 🇺🇸 كفالتها سنتين على الوكيل فورد الغانم سعرها ${salePrice} دك`;
+                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها سنتين على الوكيل فورد الغانم سعرها ${salePrice} دك`;
                 } else {
-                    return `متوفرة بطارية موتر كرافت امريكيه 🇺🇸 كفالتها 3 سنوات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
+                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سنوات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
                 }
             } else if (brandUpper.includes('VARTA')) {
-                return `متوفرة بطارية فارتا المانيه 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشلن السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية فارتا ألمانية 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشنل السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('ABM')) {
-                return `متوفرة بطارية ايه بي ام ماليزية 🇲🇾 كفالتها سنة واحدة على الوكيل اف كي السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية أيه بي أم ماليزية 🇲🇾 كفالتها سنة واحدة على الوكيل أف كي السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('MOTO RAFT')) {
-                return `متوفرة بطارية موتر رفت هنديه 🇮🇳 كفالتها سنه واحده على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية موتر رفت هندية 🇮🇳 كفالتها سنة واحدة على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('BOSSTER') || brandUpper.includes('BOOSTER')) {
-                return `متوفرة بطارية بوستر او اوكلي صينيه 🇨🇳 كفالتها سنه واحده على الوكيل المشعل السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية بوستر أو أو سي صينية 🇨🇳 كفالتها سنة واحدة على الوكيل المشعل السعر مع رسوم التركيب ${salePrice} دك`;
             } else {
                 return `متوفرة بطارية ${brand} السعر ${salePrice} دك`;
             }
@@ -932,7 +933,7 @@
 
                 loadData();
             } else {
-                errorMsg.textContent = 'اسم المستخدم او كلمة المرور غير صحية';
+                errorMsg.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
@@ -947,6 +948,26 @@
             document.getElementById('loginForm').reset();
             document.getElementById('results').style.display = 'none';
             document.getElementById('searchInput').value = '';
+        }
+
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim().replace(/^"|"$/g, ''));
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim().replace(/^"|"$/g, ''));
+            return result;
         }
 
         async function loadData() {
@@ -968,17 +989,18 @@
             try {
                 const response = await fetch(DRIVERS_SHEET_URL);
                 const text = await response.text();
-                const json = JSON.parse(text.substring(47).slice(0, -2));
+                const rows = text.split('\n').filter(row => row.trim());
                 
-                json.table.rows.forEach(row => {
-                    if (row.c[0] && row.c[1]) {
-                        const driverEn = row.c[0].v;
-                        const driverAr = row.c[1].v;
-                        driversArabicNames[driverEn] = driverAr;
+                for (let i = 1; i < rows.length; i++) {
+                    const cols = parseCSVLine(rows[i]);
+                    if (cols[0] && cols[1]) {
+                        driversArabicNames[cols[0]] = cols[1];
                     }
-                });
+                }
+
+                console.log('تم تحميل أسماء السائقين:', driversArabicNames);
             } catch (error) {
-                console.error('خطأ في تحميل اسماء السائقين:', error);
+                console.error('خطأ في تحميل أسماء السائقين:', error);
             }
         }
 
@@ -986,20 +1008,26 @@
             try {
                 const response = await fetch(MAIN_SHEET_URL);
                 const text = await response.text();
-                const json = JSON.parse(text.substring(47).slice(0, -2));
+                const rows = text.split('\n').filter(row => row.trim());
                 
-                const headers = json.table.cols.map(col => col.label);
+                const headers = parseCSVLine(rows[0]);
+                
+                console.log('عناوين الأعمدة:', headers);
+                console.log('عدد الأعمدة:', headers.length);
+                
                 batteryData = [];
 
-                json.table.rows.forEach(row => {
+                for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
+                    const cols = parseCSVLine(rows[rowIndex]);
+                    
                     const battery = {
-                        size: row.c[0]?.v || '',
-                        brand: row.c[1]?.v || '',
-                        tradeName: row.c[2]?.v || '',
-                        price: row.c[3]?.v || 0,
-                        salePrice: row.c[4]?.v || 0,
-                        fkStock: row.c[5]?.v || 0,
-                        mStock: row.c[6]?.v || 0,
+                        size: cols[0] || '',
+                        brand: cols[1] || '',
+                        tradeName: cols[2] || '',
+                        price: parseFloat(cols[3]) || 0,
+                        salePrice: parseFloat(cols[4]) || 0,
+                        fkStock: parseFloat(cols[5]) || 0,
+                        mStock: parseFloat(cols[6]) || 0,
                         drivers: [],
                         fkSupplierName: '',
                         mSupplierName: ''
@@ -1008,28 +1036,37 @@
                     battery.fkSupplierName = getSupplierName(battery.brand, 'FK');
                     battery.mSupplierName = getSupplierName(battery.brand, 'M');
 
-                    for (let i = 7; i < row.c.length; i += 2) {
-                        const fkQty = row.c[i]?.v || 0;
-                        const mQty = row.c[i + 1]?.v || 0;
-                        const driverEnglishName = headers[i];
+                    for (let colIndex = 7; colIndex < headers.length; colIndex += 2) {
+                        const driverHeader = headers[colIndex];
                         
-                        if (driverEnglishName && (fkQty > 0 || mQty > 0)) {
-                            const driverArabicName = driversArabicNames[driverEnglishName] || driverEnglishName;
+                        if (driverHeader && driverHeader.trim() !== '') {
+                            const driverEnglishName = driverHeader.trim();
                             
-                            battery.drivers.push({
-                                name: driverArabicName,
-                                fk: fkQty,
-                                m: mQty,
-                                fkSupplierName: getSupplierName(battery.brand, 'FK'),
-                                mSupplierName: getSupplierName(battery.brand, 'M')
-                            });
+                            const fkQty = parseFloat(cols[colIndex]) || 0;
+                            const mQty = parseFloat(cols[colIndex + 1]) || 0;
+                            
+                            if (fkQty > 0 || mQty > 0) {
+                                const driverArabicName = driversArabicNames[driverEnglishName] || driverEnglishName;
+                                
+                                battery.drivers.push({
+                                    name: driverArabicName,
+                                    englishName: driverEnglishName,
+                                    fk: fkQty,
+                                    m: mQty,
+                                    fkSupplierName: battery.fkSupplierName,
+                                    mSupplierName: battery.mSupplierName
+                                });
+                            }
                         }
                     }
 
                     if (battery.size) {
                         batteryData.push(battery);
                     }
-                });
+                }
+
+                console.log('تم تحميل عدد البطاريات:', batteryData.length);
+                console.log('مثال على بطارية مع سائقين:', batteryData.find(b => b.drivers.length > 0));
 
                 if (currentUser && currentUser.canExport) {
                     updateDashboard();
@@ -1099,7 +1136,7 @@
             if (filteredBatteries.length === 0) {
                 const message = filter === 'out' ? 'لا توجد بطاريات منتهية' : 
                                filter === 'low' ? 'لا توجد بطاريات منخفضة' : 
-                               'لا توجد بطاريات منخفضة او منتهية';
+                               'لا توجد بطاريات منخفضة أو منتهية';
                 
                 lowStockList.innerHTML = `
                     <div style="text-align: center; padding: 2rem; color: #4CAF50;">
@@ -1258,13 +1295,25 @@
             resultsDiv.style.display = 'block';
         }
 
-        function handleExport() {
+        async function handleExport() {
             if (!currentUser || !currentUser.canExport) {
                 return;
             }
 
-            const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
-            window.open(sheetUrl, '_blank', 'noopener,noreferrer');
+            try {
+                const response = await fetch(MAIN_SHEET_URL);
+                const text = await response.text();
+                const rows = text.split('\n').map(row => parseCSVLine(row));
+                
+                const ws = XLSX.utils.aoa_to_sheet(rows);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                
+                const today = new Date().toISOString().split('T')[0];
+                XLSX.writeFile(wb, `battery_inventory_${today}.xlsx`);
+            } catch (error) {
+                console.error('خطأ في تصدير البيانات:', error);
+            }
         }
 
         async function onConfigChange(newConfig) {
@@ -1311,5 +1360,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92ff7681f77cc9',t:'MTc2NDkzMTk4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a93630601e5c5d0',t:'MTc2NDkzNjA2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
