@@ -932,7 +932,7 @@
 
                 loadData();
             } else {
-                errorMsg.textContent = 'اسم المستخدم او كلمة المرور غير صحيحة';
+                errorMsg.textContent = 'اسم المستخدم او كلمة المرور غير صحي����ة';
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
@@ -1180,7 +1180,7 @@
                     <div class="no-results">
                         <div class="no-results-icon">🔋</div>
                         <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">لا توجد نتائج</div>
-                        <div>لم يتم العثور على بطاريات متوفرة بمقاس ${size}</div>
+                        <div>لم يتم العثور ��لى بطاريات متوفرة بمقاس ${size}</div>
                     </div>
                 `;
             } else {
@@ -1263,76 +1263,8 @@
                 return;
             }
 
-            // إنشاء بيانات Excel
-            const wb = XLSX.utils.book_new();
-            
-            // تحضير البيانات للجدول الرئيسي
-            const mainData = [['المقاس', 'الماركة', 'الاسم التجاري', 'السعر', 'سعر البيع', 'مخزون FK', 'مخزون M']];
-            
-            // إضافة أسماء السائقين كأعمدة
-            const driverNames = Object.keys(driversArabicNames);
-            driverNames.forEach(driver => {
-                mainData[0].push(`${driversArabicNames[driver]} FK`);
-                mainData[0].push(`${driversArabicNames[driver]} M`);
-            });
-            
-            // إضافة بيانات البطاريات
-            batteryData.forEach(battery => {
-                const row = [
-                    battery.size,
-                    battery.brand,
-                    battery.tradeName,
-                    battery.price,
-                    battery.salePrice,
-                    battery.fkStock,
-                    battery.mStock
-                ];
-                
-                // إضافة مخزون السائقين
-                driverNames.forEach(driverEn => {
-                    const driver = battery.drivers.find(d => d.name === driversArabicNames[driverEn]);
-                    if (driver) {
-                        row.push(driver.fk);
-                        row.push(driver.m);
-                    } else {
-                        row.push(0);
-                        row.push(0);
-                    }
-                });
-                
-                mainData.push(row);
-            });
-            
-            // إنشاء الورقة الرئيسية
-            const ws1 = XLSX.utils.aoa_to_sheet(mainData);
-            
-            // تنسيق العرض للأعمدة
-            ws1['!cols'] = [
-                { wch: 12 }, // المقاس
-                { wch: 25 }, // الماركة
-                { wch: 20 }, // الاسم التجاري
-                { wch: 10 }, // السعر
-                { wch: 12 }, // سعر البيع
-                { wch: 12 }, // مخزون FK
-                { wch: 12 }  // مخزون M
-            ];
-            
-            XLSX.utils.book_append_sheet(wb, ws1, 'البيانات الرئيسية');
-            
-            // إنشاء ورقة أسماء السائقين
-            const driversData = [['الاسم بالإنجليزي', 'الاسم بالعربي']];
-            Object.keys(driversArabicNames).forEach(en => {
-                driversData.push([en, driversArabicNames[en]]);
-            });
-            
-            const ws2 = XLSX.utils.aoa_to_sheet(driversData);
-            ws2['!cols'] = [{ wch: 20 }, { wch: 20 }];
-            XLSX.utils.book_append_sheet(wb, ws2, 'أسماء السائقين');
-            
-            // تحميل الملف
-            const today = new Date();
-            const dateStr = `${today.getFullYear()}-${(today.getMonth()+1).toString().padStart(2,'0')}-${today.getDate().toString().padStart(2,'0')}`;
-            XLSX.writeFile(wb, `مخزون_البطاريات_${dateStr}.xlsx`);
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+            window.open(sheetUrl, '_blank', 'noopener,noreferrer');
         }
 
         async function onConfigChange(newConfig) {
@@ -1379,5 +1311,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92fbf082167cc9',t:'MTc2NDkzMTg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a92ff7681f77cc9',t:'MTc2NDkzMTk4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
