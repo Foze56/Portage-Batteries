@@ -303,56 +303,80 @@
             gap: 1rem;
         }
 
-        .low-stock-item {
-            background: #fff3f3;
-            border: 2px solid #ffcdd2;
+        .low-stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
             border-radius: 10px;
-            padding: 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .low-stock-item:hover {
-            border-color: #d32f2f;
-            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+        .low-stock-table thead {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
         }
 
-        .low-stock-info {
-            flex: 1;
+        .low-stock-table th {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .low-stock-brand {
-            font-size: 1.2rem;
+        .low-stock-table th:last-child {
+            border-left: none;
+        }
+
+        .low-stock-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .low-stock-table tbody tr:hover {
+            background: #fff3f3;
+        }
+
+        .low-stock-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .low-stock-table td {
+            padding: 0.65rem 0.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            border-left: 1px solid #f0f0f0;
+        }
+
+        .low-stock-table td:last-child {
+            border-left: none;
+        }
+
+        .low-stock-brand-cell {
             font-weight: bold;
             color: #1a1a1a;
-            margin-bottom: 0.5rem;
-        }
-
-        .low-stock-details {
-            display: flex;
-            gap: 1.5rem;
-            color: #666;
-            font-size: 0.95rem;
+            text-align: right;
         }
 
         .low-stock-badge {
             background: #d32f2f;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.8rem;
+            display: inline-block;
         }
 
         .out-of-stock-badge {
             background: #9e9e9e;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.8rem;
+            display: inline-block;
         }
 
         .search-section {
@@ -545,18 +569,9 @@
             color: #1a1a1a;
         }
 
-        .battery-price {
-            background: #FFC107;
-            color: #1a1a1a;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
         .battery-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin-bottom: 1rem;
         }
@@ -587,46 +602,46 @@
         }
 
         .stock-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             color: #1a1a1a;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .stock-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.6rem;
         }
 
         .driver-stock {
             background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: 1.5px solid #e0e0e0;
             transition: all 0.3s;
         }
 
         .driver-stock:hover {
             border-color: #FFC107;
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
         }
 
         .driver-name {
             font-weight: bold;
             color: #1a1a1a;
-            margin-bottom: 0.75rem;
-            font-size: 1.05rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #FFC107;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1.5px solid #FFC107;
         }
 
         .warehouse-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid #f5f5f5;
         }
 
         .warehouse-item:last-child {
@@ -635,16 +650,16 @@
 
         .warehouse-name {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
         }
 
         .warehouse-stock {
             background: #1a1a1a;
             color: #FFC107;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
         }
 
         .no-results {
@@ -712,6 +727,15 @@
             .btn-filter {
                 flex: 1;
             }
+
+            .low-stock-table {
+                font-size: 0.75rem;
+            }
+
+            .low-stock-table th,
+            .low-stock-table td {
+                padding: 0.5rem 0.3rem;
+            }
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -730,7 +754,7 @@
      <div class="form-group"><label class="form-label">اسم المستخدم</label> <input type="text" id="username" class="form-input" placeholder="أدخل اسم المستخدم" required>
      </div>
      <div class="form-group"><label class="form-label">كلمة المرور</label> <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" required>
-     </div><button type="submit" class="btn-login">تسجي���� الدخول</button>
+     </div><button type="submit" class="btn-login">تسجيل الدخول</button>
     </form>
    </div>
   </div>
@@ -855,7 +879,7 @@
             Abdullah: { password: 'portarage1', role: 'كول سنتر', canExport: false },
             Suaad: { password: 'portarage2', role: 'كول سنتر', canExport: false },
             Laila: { password: 'portarage3', role: 'كول سنتر', canExport: false },
-            Nasser: { password: 'portarage4', role: 'كول سنتر', canExport: false },
+            Nasser: { password: 'portarage4', role: 'كول ����نتر', canExport: false },
             Khalifa: { password: 'portarage5', role: 'كول سنتر', canExport: false },
             Azam: { password: 'portarage6', role: 'كول سنتر', canExport: false },
             Abdulwahab: { password: 'portarage7', role: 'كول سنتر', canExport: false },
@@ -894,14 +918,14 @@
                 if (size === 'DA100' || size === '95AGM') {
                     return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها سنتين على الوكيل فورد الغانم سعرها ${salePrice} دك`;
                 } else {
-                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سنوات على الوكيل ��ورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
+                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سنوات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
                 }
             } else if (brandUpper.includes('VARTA')) {
                 return `متوفرة بطارية فارتا ألمانية 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشنل السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('ABM')) {
                 return `متوفرة بطارية أيه بي أم ماليزية 🇲🇾 كفالتها سنة واحدة على الوكيل أف كي السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('MOTO RAFT')) {
-                return `متوفرة بطارية موتر رفت ��ندية 🇮🇳 كفالتها سنة واحدة على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية موتر رفت هندي�� 🇮🇳 كفالتها سنة واحدة على الوكيل ��فتخار السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('BOSSTER') || brandUpper.includes('BOOSTER')) {
                 return `متوفرة بطارية بوستر أو أو سي صينية 🇨🇳 كفالتها سنة واحدة على الوكيل المشعل السعر مع رسوم التركيب ${salePrice} دك`;
             } else {
@@ -951,7 +975,7 @@
                 loadData();
                 startAutoRefresh();
             } else {
-                errorMsg.textContent = 'اسم المستخدم أو كلمة المرور غير ص��يحة';
+                errorMsg.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
@@ -1029,7 +1053,6 @@
 
         async function loadDriversData() {
             try {
-                // قاموس أسماء السائقين بالعربية
                 const predefinedNames = {
                     'NYAZ': 'نياز',
                     'Muthu': 'موثو',
@@ -1051,7 +1074,6 @@
                     'Durga Prasad': 'دورجا براساد'
                 };
                 
-                // إضافة الأسماء المحددة مسبقاً
                 Object.assign(driversArabicNames, predefinedNames);
                 
                 try {
@@ -1113,7 +1135,6 @@
                         if (driverHeader && driverHeader.trim() !== '') {
                             const driverEnglishName = driverHeader.trim();
                             
-                            // تجاهل الس��ئق اسمه total
                             if (driverEnglishName.toLowerCase() === 'total') {
                                 continue;
                             }
@@ -1222,21 +1243,37 @@
                     </div>
                 `;
             } else {
-                lowStockList.innerHTML = filteredBatteries.map(battery => `
-                    <div class="low-stock-item">
-                        <div class="low-stock-info">
-                            <div class="low-stock-brand">${battery.brand} - ${battery.size}</div>
-                            <div class="low-stock-details">
-                                <span>المخزون الرئيسي 📦: ${battery.fkStock + battery.mStock}</span>
-                                <span>السائق��ن 🚚: ${battery.drivers.reduce((sum, d) => sum + d.fk + d.m, 0)}</span>
-                            </div>
-                        </div>
-                        ${battery.totalStock === 0 
-                            ? '<div class="out-of-stock-badge">منتهية</div>'
-                            : `<div class="low-stock-badge">متبقي ${battery.totalStock}</div>`
-                        }
-                    </div>
-                `).join('');
+                lowStockList.innerHTML = `
+                    <table class="low-stock-table">
+                        <thead>
+                            <tr>
+                                <th>البطارية والمقاس</th>
+                                <th>السعر 💰</th>
+                                <th>سعر البيع 💵</th>
+                                <th>المخزون 📦</th>
+                                <th>السائقين 🚚</th>
+                                <th>الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${filteredBatteries.map(battery => `
+                                <tr>
+                                    <td class="low-stock-brand-cell">${battery.brand} - ${battery.size}</td>
+                                    <td>${battery.price} دك</td>
+                                    <td>${battery.salePrice} دك</td>
+                                    <td>${battery.fkStock + battery.mStock}</td>
+                                    <td>${battery.drivers.reduce((sum, d) => sum + d.fk + d.m, 0)}</td>
+                                    <td>
+                                        ${battery.totalStock === 0 
+                                            ? '<span class="out-of-stock-badge">منتهية</span>'
+                                            : `<span class="low-stock-badge">متبقي ${battery.totalStock}</span>`
+                                        }
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
             }
         }
 
@@ -1306,13 +1343,20 @@
                     <div class="battery-card">
                         <div class="battery-header">
                             <div class="battery-name">${battery.brand}</div>
-                            <div class="battery-price">${battery.salePrice} دك</div>
                         </div>
                         
                         <div class="battery-info">
                             <div class="info-item">
-                                <div class="info-label">الم��اس</div>
+                                <div class="info-label">المقاس</div>
                                 <div class="info-value">${battery.size}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">السعر 💰</div>
+                                <div class="info-value">${battery.price} دك</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">سعر البيع 💵</div>
+                                <div class="info-value">${battery.salePrice} دك</div>
                             </div>
                             ${battery.fkStock > 0 ? `
                             <div class="info-item">
@@ -1334,7 +1378,7 @@
                             </div>
                         ` : `
                             <div class="stock-section">
-                                <div class="stock-title">مخزون السائقين 🚚</div>
+                                <div class="stock-title">��خزون السائقين 🚚</div>
                                 <div class="stock-grid">
                                     ${battery.drivers.map(driver => `
                                         <div class="driver-stock">
@@ -1450,5 +1494,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a93daf855ed7cc9',t:'MTc2NDk0MDk3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a945853234c7cc9',t:'MTc2NDk0NjExMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
