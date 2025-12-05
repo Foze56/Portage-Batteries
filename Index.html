@@ -6,7 +6,6 @@
   <title>نظام إدارة مخزون البطاريات</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
         body {
             box-sizing: border-box;
@@ -28,16 +27,17 @@
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
-            background: #f5f5f5;
+            background: #1a1a1a;
         }
 
         .auth-card {
-            background: #e0e0e0;
+            background: #2d2d2d;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             max-width: 450px;
             width: 100%;
             padding: 3rem 2.5rem;
+            border: 2px solid #FFC107;
         }
 
         .logo-container {
@@ -54,7 +54,7 @@
         .system-title {
             font-size: 1.75rem;
             font-weight: bold;
-            color: #1a1a1a;
+            color: #FFC107;
             margin-bottom: 0.5rem;
         }
 
@@ -64,7 +64,7 @@
 
         .form-label {
             display: block;
-            color: #333;
+            color: #e0e0e0;
             font-weight: 600;
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
@@ -73,18 +73,19 @@
         .form-input {
             width: 100%;
             padding: 0.875rem 1rem;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #4a4a4a;
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s;
-            background: #fafafa;
+            background: #1a1a1a;
+            color: #e0e0e0;
         }
 
         .form-input:focus {
             outline: none;
             border-color: #FFC107;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+            background: #2d2d2d;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
         }
 
         .btn-login {
@@ -729,7 +730,7 @@
      <div class="form-group"><label class="form-label">اسم المستخدم</label> <input type="text" id="username" class="form-input" placeholder="أدخل اسم المستخدم" required>
      </div>
      <div class="form-group"><label class="form-label">كلمة المرور</label> <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" required>
-     </div><button type="submit" class="btn-login">تسجيل الدخول</button>
+     </div><button type="submit" class="btn-login">تسجي���� الدخول</button>
     </form>
    </div>
   </div>
@@ -748,7 +749,7 @@
    </header>
    <main class="content">
     <div class="search-section">
-     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مقاس البطارية مثال 95 أو DA95 أو AGM" oninput="handleSearchInput()" onfocus="handleSearchFocus()"> <button id="exportBtn" class="btn-export" onclick="handleExport()"> 📥 تحميل Excel </button>
+     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مقاس البطارية مثال 95 أو DA95 أو AGM" oninput="handleSearchInput()" onfocus="handleSearchFocus()"> <button id="exportBtn" class="btn-export" onclick="openGoogleSheet()"> 📊 فتح القوقل شيت </button>
      </div>
      <div id="suggestions" class="suggestions"></div>
     </div>
@@ -851,8 +852,20 @@
         const DRIVERS_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1448714097`;
 
         const USERS = {
-            CallCenter: { password: 'portarage7887', role: 'موظف', canExport: false },
-            manager: { password: 'portarage7859', role: 'accountant', canExport: true }
+            Abdullah: { password: 'portarage1', role: 'كول سنتر', canExport: false },
+            Suaad: { password: 'portarage2', role: 'كول سنتر', canExport: false },
+            Laila: { password: 'portarage3', role: 'كول سنتر', canExport: false },
+            Nasser: { password: 'portarage4', role: 'كول سنتر', canExport: false },
+            Khalifa: { password: 'portarage5', role: 'كول سنتر', canExport: false },
+            Azam: { password: 'portarage6', role: 'كول سنتر', canExport: false },
+            Abdulwahab: { password: 'portarage7', role: 'كول سنتر', canExport: false },
+            Bashar: { password: 'portarage8', role: 'كول سنتر', canExport: false },
+            Ali: { password: 'portarage9', role: 'كول سنتر', canExport: false },
+            Sabah: { password: 'portarage10', role: 'كول سنتر', canExport: false },
+            Hamad: { password: 'portarage12', role: 'كول سنتر', canExport: false },
+            Fawzi: { password: 'portarage12', role: 'كول سنتر', canExport: false },
+            Mohamad: { password: 'portarage7896', role: 'المحاسب', canExport: true },
+            Salem: { password: 'portarage7887', role: 'المدير', canExport: true }
         };
 
         let currentUser = null;
@@ -881,14 +894,14 @@
                 if (size === 'DA100' || size === '95AGM') {
                     return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها سنتين على الوكيل فورد الغانم سعرها ${salePrice} دك`;
                 } else {
-                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سن��ات على الوكيل فورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
+                    return `متوفرة بطارية موتر كرافت أمريكية 🇺🇸 كفالتها 3 سنوات على الوكيل ��ورد الغانم السعر مع رسوم التركيب ${salePrice} دك`;
                 }
             } else if (brandUpper.includes('VARTA')) {
                 return `متوفرة بطارية فارتا ألمانية 🇩🇪 كفالتها سنة على الوكيل الفتو انترنشنل السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('ABM')) {
                 return `متوفرة بطارية أيه بي أم ماليزية 🇲🇾 كفالتها سنة واحدة على الوكيل أف كي السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('MOTO RAFT')) {
-                return `متوفرة بطارية موتر رفت هندية 🇮🇳 كفالتها سنة واحدة على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
+                return `متوفرة بطارية موتر رفت ��ندية 🇮🇳 كفالتها سنة واحدة على الوكيل افتخار السعر مع رسوم التركيب ${salePrice} دك`;
             } else if (brandUpper.includes('BOSSTER') || brandUpper.includes('BOOSTER')) {
                 return `متوفرة بطارية بوستر أو أو سي صينية 🇨🇳 كفالتها سنة واحدة على الوكيل المشعل السعر مع رسوم التركيب ${salePrice} دك`;
             } else {
@@ -921,7 +934,6 @@
             if (USERS[username] && USERS[username].password === password) {
                 currentUser = { username, ...USERS[username] };
                 
-                // حفظ بيانات المستخدم في localStorage
                 localStorage.setItem('batterySystemUser', JSON.stringify(currentUser));
                 
                 document.getElementById('authContainer').style.display = 'none';
@@ -939,7 +951,7 @@
                 loadData();
                 startAutoRefresh();
             } else {
-                errorMsg.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+                errorMsg.textContent = 'اسم المستخدم أو كلمة المرور غير ص��يحة';
                 errorMsg.style.display = 'block';
                 setTimeout(() => {
                     errorMsg.style.display = 'none';
@@ -950,10 +962,8 @@
         function handleLogout() {
             currentUser = null;
             
-            // حذف بيانات المستخدم من localStorage
             localStorage.removeItem('batterySystemUser');
             
-            // إيقاف التحديث التلقائي
             stopAutoRefresh();
             
             document.getElementById('mainContainer').style.display = 'none';
@@ -1003,12 +1013,10 @@
         }
 
         function startAutoRefresh() {
-            // إيقاف أي تحديث سابق
             stopAutoRefresh();
             
-            // تحديث البيانات كل دقيقة (60000 ميلي ثانية)
             autoRefreshInterval = setInterval(() => {
-                loadData(true); // التحديث الصامت بدون إظهار شاشة التحميل
+                loadData(true);
             }, 60000);
         }
 
@@ -1021,15 +1029,44 @@
 
         async function loadDriversData() {
             try {
-                const response = await fetch(DRIVERS_SHEET_URL);
-                const text = await response.text();
-                const rows = text.split('\n').filter(row => row.trim());
+                // قاموس أسماء السائقين بالعربية
+                const predefinedNames = {
+                    'NYAZ': 'نياز',
+                    'Muthu': 'موثو',
+                    'Ganesh': 'جانيش',
+                    'Iresh-KESAVAN': 'اريش-كيسافان',
+                    'GUFRAN': 'غفران',
+                    'edeson alpert': 'إيديسون ألبرت',
+                    'Irfan': 'إرفان',
+                    'Albert': 'ألبرت',
+                    'Lakshman': 'لاكشمان',
+                    'santheel': 'سانثيل',
+                    'ARVENTH': 'أرفنت',
+                    'MortaDA/Santhosh': 'مرتضى / سانتوش',
+                    'Mayura': 'مايورا',
+                    'yusuf & rahimah allah': 'يوسف و رحمة الله',
+                    'Ali and Sayed': 'علي وسيد',
+                    'Sayid and Ramos': 'سيد ورامس',
+                    'bala': 'بالا',
+                    'Durga Prasad': 'دورجا براساد'
+                };
                 
-                for (let i = 1; i < rows.length; i++) {
-                    const cols = parseCSVLine(rows[i]);
-                    if (cols[0] && cols[1]) {
-                        driversArabicNames[cols[0]] = cols[1];
+                // إضافة الأسماء المحددة مسبقاً
+                Object.assign(driversArabicNames, predefinedNames);
+                
+                try {
+                    const response = await fetch(DRIVERS_SHEET_URL);
+                    const text = await response.text();
+                    const rows = text.split('\n').filter(row => row.trim());
+                    
+                    for (let i = 1; i < rows.length; i++) {
+                        const cols = parseCSVLine(rows[i]);
+                        if (cols[0] && cols[1]) {
+                            driversArabicNames[cols[0]] = cols[1];
+                        }
                     }
+                } catch (sheetError) {
+                    console.log('استخدام الأسماء المحددة مسبقاً فقط');
                 }
 
                 console.log('تم تحميل أسماء السائقين:', driversArabicNames);
@@ -1075,6 +1112,11 @@
                         
                         if (driverHeader && driverHeader.trim() !== '') {
                             const driverEnglishName = driverHeader.trim();
+                            
+                            // تجاهل الس��ئق اسمه total
+                            if (driverEnglishName.toLowerCase() === 'total') {
+                                continue;
+                            }
                             
                             const fkQty = parseFloat(cols[colIndex]) || 0;
                             const mQty = parseFloat(cols[colIndex + 1]) || 0;
@@ -1186,7 +1228,7 @@
                             <div class="low-stock-brand">${battery.brand} - ${battery.size}</div>
                             <div class="low-stock-details">
                                 <span>المخزون الرئيسي 📦: ${battery.fkStock + battery.mStock}</span>
-                                <span>السائقين 🚚: ${battery.drivers.reduce((sum, d) => sum + d.fk + d.m, 0)}</span>
+                                <span>السائق��ن 🚚: ${battery.drivers.reduce((sum, d) => sum + d.fk + d.m, 0)}</span>
                             </div>
                         </div>
                         ${battery.totalStock === 0 
@@ -1269,13 +1311,13 @@
                         
                         <div class="battery-info">
                             <div class="info-item">
-                                <div class="info-label">المقاس</div>
+                                <div class="info-label">الم��اس</div>
                                 <div class="info-value">${battery.size}</div>
                             </div>
                             ${battery.fkStock > 0 ? `
                             <div class="info-item">
                                 <div class="info-label">${battery.fkSupplierName}</div>
-                                <div class="info-value">${battery.fkStock} ${battery.fkStock === 1 ? 'بطارية' : 'ب��اريات'}</div>
+                                <div class="info-value">${battery.fkStock} ${battery.fkStock === 1 ? 'بطارية' : 'بطاريات'}</div>
                             </div>
                             ` : ''}
                             ${battery.mStock > 0 ? `
@@ -1329,25 +1371,13 @@
             resultsDiv.style.display = 'block';
         }
 
-        async function handleExport() {
+        function openGoogleSheet() {
             if (!currentUser || !currentUser.canExport) {
                 return;
             }
 
-            try {
-                const response = await fetch(MAIN_SHEET_URL);
-                const text = await response.text();
-                const rows = text.split('\n').map(row => parseCSVLine(row));
-                
-                const ws = XLSX.utils.aoa_to_sheet(rows);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-                
-                const today = new Date().toISOString().split('T')[0];
-                XLSX.writeFile(wb, `battery_inventory_${today}.xlsx`);
-            } catch (error) {
-                console.error('خطأ في تصدير البيانات:', error);
-            }
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+            window.open(sheetUrl, '_blank', 'noopener,noreferrer');
         }
 
         async function onConfigChange(newConfig) {
@@ -1388,7 +1418,6 @@
             });
         }
 
-        // فحص تسجيل الدخول السابق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('batterySystemUser');
             if (savedUser) {
@@ -1421,5 +1450,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a93a38d26db7cc9',t:'MTc2NDkzODcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a93daf855ed7cc9',t:'MTc2NDk0MDk3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
