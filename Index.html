@@ -114,6 +114,12 @@
             box-shadow: 0 15px 35px rgba(255, 193, 7, 0.5);
         }
 
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .error-message {
             background: #000;
             color: #FFC107;
@@ -920,7 +926,6 @@
         
         const SHEET_ID = '1WghSWhC-NJ0h--afoaR0ydzTP8ULw7N3tBDgToXoLVk';
         const MAIN_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
-        const DRIVERS_SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1448714097`;
 
         const USERS = {
             Abdullah: { password: 'portarage1', role: 'كول سنتر', canExport: false },
@@ -1099,12 +1104,12 @@
             try {
                 const predefinedNames = {
                     'NYAZ': 'نياز',
-                    'Muthu': 'موثو',
+                    'Muthu': 'موتو',
                     'Ganesh': 'جانيش',
                     'Iresh-KESAVAN': 'اريش-كيسافان',
                     'GUFRAN': 'غفران',
                     'edeson alpert': 'إيديسون ألبرت',
-                    'Irfan': 'إرفان',
+                    'Irfan': 'عرفان',
                     'Albert': 'ألبرت',
                     'Lakshman': 'لاكشمان',
                     'santheel': 'سانثيل',
@@ -1120,21 +1125,6 @@
                 
                 Object.assign(driversArabicNames, predefinedNames);
                 
-                try {
-                    const response = await fetch(DRIVERS_SHEET_URL);
-                    const text = await response.text();
-                    const rows = text.split('\n').filter(row => row.trim());
-                    
-                    for (let i = 1; i < rows.length; i++) {
-                        const cols = parseCSVLine(rows[i]);
-                        if (cols[0] && cols[1]) {
-                            driversArabicNames[cols[0]] = cols[1];
-                        }
-                    }
-                } catch (sheetError) {
-                    console.log('استخدام الأسماء المحددة مسبقاً فقط');
-                }
-
                 console.log('تم تحميل أسماء السائقين:', driversArabicNames);
             } catch (error) {
                 console.error('خطأ في تحميل أسماء السائقين:', error);
@@ -1151,13 +1141,14 @@
                 
                 console.log('عناوين الأعمدة:', headers);
                 console.log('عدد الأعمدة:', headers.length);
-                
+
                 batteryData = [];
 
                 for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
                     const cols = parseCSVLine(rows[rowIndex]);
                     
                     const battery = {
+                        rowIndex: rowIndex,
                         size: cols[0] || '',
                         brand: cols[1] || '',
                         tradeName: cols[2] || '',
@@ -1207,7 +1198,6 @@
                 }
 
                 console.log('تم تحميل عدد البطاريات:', batteryData.length);
-                console.log('مثال على بطارية مع سائقين:', batteryData.find(b => b.drivers.length > 0));
 
                 if (currentUser && currentUser.canExport) {
                     updateDashboard();
@@ -1531,5 +1521,5 @@
             }
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a946ee656fc7cc9',t:'MTc2NDk0NzAzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a999671473b7cc9',t:'MTc2NTAwMTA4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
