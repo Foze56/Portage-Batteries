@@ -410,11 +410,11 @@
                     div.addEventListener('click', function() {
                         const incInput = document.getElementById('increase');
                         if (!incInput) return;
-                        // try to extract a decimal or integer (e.g., 17, 17.5, 0.10)
-                        const match = text.match(/([0-9]+(?:\.[0-9]+)?)/);
-                        if (match) {
-                            incInput.value = match[1];
+                        const increaseValue = div.dataset.increase || (text.match(/([0-9]+(?:\.[0-9]+)?)/) || [])[1];
+                        if (increaseValue) {
+                            incInput.value = increaseValue;
                             incInput.focus();
+                            runCode();
                         }
                     });
                 });
@@ -430,7 +430,7 @@
 
 <br>
         
-<div style="text-align:center;"><strong onclick="document.getElementById('increase').value = '13'; this.style.backgroundColor = 'rgba(0,255,0,0.2)'; setTimeout(() => this.style.backgroundColor = 'transparent', 200);">الميلم</strong></div>
+<div style="text-align:center;" data-increase="13"><strong>الميلم</strong></div>
 <div style="text-align:center;">كل الماركات 13 د.ك</div>
 <div style="text-align:center;">تويو ماليزي او هانكوك 10 د.ك</div>
 
@@ -456,13 +456,13 @@
 
 <br>
 
-<div style="text-align:center;"><strong onclick="document.getElementById('increase').value = '15'; this.style.backgroundColor = 'rgba(0,255,0,0.2)'; setTimeout(() => this.style.backgroundColor = 'transparent', 200);">الغانم موتري</strong></div>
+<div style="text-align:center;" data-increase="15"><strong>الغانم موتري</strong></div>
 <div style="text-align:center;">صيني 15 د.ك</div>
 <div style="text-align:center;">كوري 12 د.ك</div>
 
 <br>
 
-<div style="text-align:center;" onclick="document.getElementById('increase').value = '0.10'; this.style.backgroundColor = 'rgba(0,255,0,0.2)'; setTimeout(() => this.style.backgroundColor = 'transparent', 200);">بيريلي: المورد × 0.10</div>
+<div style="text-align:center;" data-increase="0.10">بيريلي: المورد × 0.10</div>
 <div style="text-align:center;" onclick="openMichelinModal(2024)">ميشلان 2024</div>
 <div style="text-align:center;" onclick="openMichelinModal(2025)">ميشلان 2025</div>
 
